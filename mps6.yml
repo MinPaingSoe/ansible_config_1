@@ -1,0 +1,36 @@
+---
+
+- name: ios config command
+  hosts: router
+
+
+  tasks:
+
+    - name: Config IOS command
+      ios_config:
+        parents: interface lo0
+        lines:
+          - ip add 100.100.100.1 255.255.255.0
+          - no shut
+          - description ansibe_config
+
+    - name: multiple interface config 
+      ios_config: 
+        parents: "{{ item }}"
+        lines:
+          - description backup interface
+          - no shut
+
+      with_items:
+        - interface lo1
+        - interface gigabitethernet2  
+
+    - name: Execute show command
+      ios_command:
+        commands:
+          - show ip interface brief
+      
+      register: show_output
+
+    - debug:
+        var: show_output

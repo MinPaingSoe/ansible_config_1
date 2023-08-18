@@ -1,0 +1,12 @@
+---
+
+- name: ios config command
+  hosts: router
+
+
+  tasks:
+
+    - name: Config IOS command
+      ios_config:
+        src: ciscoconfig
+        diff_against: startup

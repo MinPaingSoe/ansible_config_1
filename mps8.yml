@@ -1,0 +1,27 @@
+---
+
+- name: ios config command
+  hosts: router
+
+
+  tasks:
+
+    - name: cisco interface configuration
+      ios_interfaces:
+        config: 
+          - name: interface GigabitEthernet 2
+            description: test for ansible
+            enabled: yes
+        state: overridden
+#      register: int 
+      
+#      with_mps:
+#       - interface gigabitethernet 2
+#       - interface gigabitethernet 0 
+    - debug:
+        var: int.before
+    - debug:
+        var: int.commands
+    - debug:
+        var: int.after
+        

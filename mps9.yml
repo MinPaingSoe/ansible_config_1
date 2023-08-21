@@ -8,9 +8,9 @@
     - name: Execute show command
       ios_command:
         commands:
-          - show ip interface brief
+          - interface lo2
       
-      register: show_output
-
-    - debug:
-        var: show_output
+#      register: show_output
+#
+#    - debug:
+#        var: show_output

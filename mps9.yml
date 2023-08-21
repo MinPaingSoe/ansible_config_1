@@ -6,9 +6,11 @@
 
   tasks:
     - name: Execute show command
-      ios_command:
-        commands:
-          - interface lo2
+      ios_interfaces:
+        config: 
+          - name: interface loopback 1
+            description: test for ansible
+      
       
 #      register: show_output
 #

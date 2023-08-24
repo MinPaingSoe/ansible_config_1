@@ -1,0 +1,58 @@
+---
+
+- name: Router Intial Configuration
+  hosts: router
+
+  tasks:
+
+    - name: cisco interface configuration-intg0/2
+      ios_interfaces:
+        config: 
+          - name: interface GigabitEthernet 2
+            description: test for ansible g2
+            duplex: full
+            mode: layer3
+            mtu: 1500           
+            enabled: yes
+        state: merged
+      
+    - name: cisco interface configuration-int g0/3
+      ios_interfaces:
+        config:
+          - name: interface GigabitEthernet 3
+            description: test for ansible g3
+            duplex: full
+            mode: layer3
+            mtu: 1500           
+            enabled: yes
+          
+    - name: save config
+      backup: yes
+      backup_option: 
+        dir_path: /etc/ansible/pb-mps1
+        filename: backup-test1
+
+    - name: ip add for gig2    
+      ios_config: 
+        parents: interface gigabitethernet 2
+        lines: 
+          - ip add 192.168.1.1 255.255.255.0
+
+    - name: ip add for gig3
+      ios_config: 
+        parents: interface gigabitethernet 3
+        lines: 
+          - ip add 192.168.2.1 255.255.255.0
+    
+    - name: ospf area 100
+      ios_config: 
+        parents: router ospf 100
+        lines: 
+          - network 192.168.1.0 0.0.0.255 area 0 
+          - network 192.168.2.0 0.0.0.255 area 1
+          - autocost
+          - router id 1.1.1.1 
+
+
+
+
